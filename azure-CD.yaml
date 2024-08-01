@@ -1,0 +1,269 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+  tags:
+    include:
+      - v-*
+  paths:
+    exclude:
+      - README.md
+ 
+variables:
+  - template: ../variables-shared.yaml
+  - group: PrismaIACToken
+ 
+pool: AflacAWSLinuxAgentPool
+ 
+workspace:
+  clean: all
+ 
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: Aflac-SCM/DevOps-GenericPipeline-Templates
+      endpoint: "Aflac-SCM"
+      ref: refs/tags/v-202309.1
+ 
+steps:
+  # Run cfn-lint to check for validation errors
+  - template: pipelines/infrastructure/iac-validation-template.yml@templates
+    parameters:
+      template_path: "$(iacCodeDirectory)/**/*.yaml"
+ 
+  # Run iac compliance scanning to check for security/config issues
+  - template: pipelines/common/iac-scan-ci-template.yml@templates
+    parameters:
+      prismaAccessKey: $(accessKeyID)
+      prismaAPISecret: $(prismaSecret)
+      iacDirectory: $(iacCodeDirectory)
+      #ContinueOnFail: true
+ 
+  # Run SQ Prepare Configuration for analysis
+  # https://sonarqube.aws.aflac.com/
+  - template: pipelines/common/sonarqube-prepare-ci-template.yml@templates
+    parameters:
+      sonarqubeBuildTool: "other"
+      projectName: $(componentName)
+      projectKey: $(asCode)-$(componentName)
+      extraProperties: ""
+ 
+  # Run SQ Analysis and Publish Results to SonarQube Server
+  # https://sonarqube.aws.aflac.com/
+  - template: pipelines/common/sonarqube-analyze-publish-ci-template.yml@templates
+ 
+  # Run SQ Build Breaker
+  # https://sonarqube.aws.aflac.com/
+  - task: sonar-buildbreaker@8
+    displayName: SonarQubeBuildBreaker
+    inputs:
+      SonarQube: "SonarHTTPSConnection"
+ 
+  # # Running Static Application Security Testing with Veracode:
+  # - template: pipelines/security-scan-ci-template.yml@templates
+  #   parameters:
+  #     veracodeApplicationProfile: "$(asCode)-$(componentName)-ADO"
+  #     binaryFilePath: "$(Build.ArtifactStagingDirectory)"
+ 
+  # Zip CFT Files:
+  - ${{ if eq(variables['build.sourceBranch'], 'refs/heads/main') }}:
+      - task: Bash@3
+        displayName: Zip IaC for Publishing
+        inputs:
+          targetType: "inline"
+          script: "zip -r $(Build.BuildNumber).zip CloudFormationTemplate"
+          workingDirectory: "$(Build.SourcesDirectory)"
+          failOnStderr: true
+ 
+      # Copy files to Artifact Staging Directory:
+      - task: CopyFiles@2
+        displayName: Copy Files to Staging Directory
+        inputs:
+          SourceFolder: "$(Build.SourcesDirectory)"
+          Contents: "$(buildArtifactsToPublish)"
+          TargetFolder: "$(Build.ArtifactStagingDirectory)"
+ 
+      # Publish Artifact:
+      - task: PublishBuildArtifacts@1
+        displayName: Publish to Azure DevOps
+        inputs:
+          PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+          ArtifactName: "drop"
+          publishLocation: "Container"
+ 
+      # Upload Artifact in JFrog Repository:
+      - task: ArtifactoryGenericUpload@2
+        condition: and(succeeded(), in(variables['Build.SourceBranchName'], 'main'))
+        displayName: Publish to artifactory
+        inputs:
+          artifactoryService: "ArtifactoryServiceConnection"
+          specSource: "taskConfiguration"
+          fileSpec: |
+            {
+              "files": [
+                {
+                  "pattern": "$(Build.ArtifactStagingDirectory)/(**)",
+                  "target":  "$(applicationName)-generic-nonprod/$(componentName)/$(Build.BuildNumber)/{1}",
+                  "flat" : "false"
+                }
+              ]
+            }
+          replaceSpecVars: true
+          collectBuildInfo: true
+          buildName: "$(Build.DefinitionName)"
+          buildNumber: "$(Build.BuildNumber)"
+          module: "module"
+          includeEnvVars: true
+          failNoOp: true
+          symlinks: true
+trigger: none pr: none   resources:   p... by Mintu Kumar - Contractor
+Mintu Kumar - Contractor (External)
+5:47 PM
+trigger: none
+pr: none
+ 
+resources:
+  pipelines:
+    - pipeline: bearpanel-infra-aws
+      source: bearpanel-infra-aws-azure-pipeline-CI
+      trigger:
+        branches:
+          - main
+  repositories:
+    - repository: templates
+      type: github
+      name: Aflac-SCM/DevOps-GenericPipeline-Templates
+      endpoint: "Aflac-SCM"
+      ref: refs/tags/v-202309.1
+    # AssumeRole for permissions to deploy
+    - repository: templates2
+      type: github
+      name: Aflac-SCM/DevOpsTemplates
+      endpoint: Aflac-SCM
+ 
+stages:
+  # DEV Infra Deployment #
+  - stage: Dev_Infra_Deployment
+    displayName: Dev Infra Deployment
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    variables:
+      - template: ../variables-dev.yaml
+    jobs:
+      - deployment: deploy_dev
+        timeoutInMinutes: "0"
+        displayName: "Deploy to DEV"
+        environment: DEV
+        pool: AflacAWSLinuxAgentPool
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+                - template: infra-pipeline-task.yaml
+                  parameters:
+                    applicationName: ${{ variables.applicationName }}
+                    appName: ${{ variables.AppName }}
+                    awsCredentials: ${{ variables.awsCredentials }}
+                    regionName: ${{ variables.awsRegionPrimary }}
+                    s3BucketName: ${{ variables.s3BucketName }}
+                    stackName: ${{ variables.stackName }}
+                    cftFilePath: ${{ variables.cftFilePath }}/Dev-Infra
+                    templateParametersFile: ${{ variables.cftFilePath }}/Dev-Infra/dev-parameter.json
+                    templateName: ${{ variables.templateName }}
+                    componentName: ${{ variables.componentName }}
+ 
+  # SYST Infra Deployment #
+  - stage: Syst_Infra_Deployment
+    displayName: Syst Infra Deployment
+    dependsOn: Dev_Infra_Deployment
+    condition: and(succeeded('Dev_Infra_Deployment'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    variables:
+      - template: ../variables-syst.yaml
+    jobs:
+      - deployment: deploy_syst
+        timeoutInMinutes: "0"
+        displayName: "Deploy to SYST"
+        environment: SYST
+        pool: AflacAWSLinuxAgentPool
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+                - template: infra-pipeline-task.yaml
+                  parameters:
+                    applicationName: ${{ variables.applicationName }}
+                    appName: ${{ variables.AppName }}
+                    awsCredentials: ${{ variables.awsCredentials }}
+                    regionName: ${{ variables.awsRegionPrimary }}
+                    s3BucketName: ${{ variables.s3BucketName }}
+                    stackName: ${{ variables.stackName }}
+                    cftFilePath: ${{ variables.cftFilePath }}/Syst-Infra
+                    templateParametersFile: ${{ variables.cftFilePath }}/Syst-Infra/syst-parameter.json
+                    templateName: ${{ variables.templateName }}
+                    componentName: ${{ variables.componentName }}
+ 
+  # PROD Infra Deployment #
+  - stage: Prod_Infra_Deployment
+    displayName: Prod Infra Deployment
+    dependsOn: Syst_Infra_Deployment
+    condition: and(succeeded('Syst_Infra_Deployment'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    variables:
+      - template: ../variables-prod.yaml
+    jobs:
+      - deployment: deploy_prod
+        timeoutInMinutes: "0"
+        displayName: "Deploy to PROD"
+        environment: PROD
+        pool: AflacAWSLinuxAgentPool
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+                - template: infra-pipeline-task.yaml
+                  parameters:
+                    applicationName: ${{ variables.applicationName }}
+                    appName: ${{ variables.AppName }}
+                    awsCredentials: ${{ variables.awsCredentials }}
+                    regionName: ${{ variables.awsRegionPrimary }}
+                    s3BucketName: ${{ variables.s3BucketName }}
+                    stackName: ${{ variables.stackName }}
+                    cftFilePath: ${{ variables.cftFilePath }}/Prod-Infra
+                    templateParametersFile: ${{ variables.cftFilePath }}/Prod-Infra/prod-parameter.json
+                    templateName: ${{ variables.templateName }}
+                    componentName: ${{ variables.componentName }}
+ 
+  # PROD DR Infra Deployment #
+  - stage: Prod_Dr_Infra_Deployment
+    displayName: Prod Dr Infra Deployment
+    dependsOn: Prod_Infra_Deployment
+    condition: and(succeeded('Prod_Infra_Deployment'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    variables:
+      - template: ../variables-prod-dr.yaml
+    jobs:
+      - deployment: deploy_prod
+        timeoutInMinutes: "0"
+        displayName: "Deploy to PROD DR"
+        environment: PROD
+        pool: AflacAWSLinuxAgentPool
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+                - template: infra-pipeline-task.yaml
+                  parameters:
+                    applicationName: ${{ variables.applicationName }}
+                    appName: ${{ variables.AppName }}
+                    awsCredentials: ${{ variables.awsCredentials }}
+                    regionName: ${{ variables.awsRegionPrimary }}
+                    s3BucketName: ${{ variables.s3BucketName }}
+                    stackName: ${{ variables.stackName }}
+                    cftFilePath: ${{ variables.cftFilePath }}/Prod-Dr-Infra
+                    templateParametersFile: ${{ variables.cftFilePath }}/Prod-Dr-Infra/prod-dr-parameter.json
+                    templateName: ${{ variables.templateName }}
+                    componentName: ${{ variables.componentName }}
+has context menu
