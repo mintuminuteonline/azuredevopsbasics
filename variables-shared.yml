@@ -1,0 +1,12 @@
+# Shared variables
+
+variables:
+  - group: # Can be referenced variable group
+  - group: # Can be referenced variable group
+  - template: # Can be referenced any other variable file in this same repo
+
+  - name:
+    value:
+
+  - name:
+    value:

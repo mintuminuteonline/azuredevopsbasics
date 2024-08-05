@@ -1,0 +1,58 @@
+[
+    {
+        "ParameterKey": "VpcID",
+        "ParameterValue": "#{VpcID}"
+    },
+    {
+        "ParameterKey": "Subnet1ID",
+        "ParameterValue": "#{Subnet1ID}"
+    },
+    {
+        "ParameterKey": "ServerInstanceType",
+        "ParameterValue": "#{ServerInstanceType}"
+    },
+    {
+        "ParameterKey": "ServerKeyName",
+        "ParameterValue": "#{ServerKeyName}"
+    },
+    {
+        "ParameterKey": "ServerName",
+        "ParameterValue": "#{ServerName}"
+    },
+    {
+        "ParameterKey": "Environment",
+        "ParameterValue": "#{Environment}"
+    },
+    {
+        "ParameterKey": "IngressFromPort",
+        "ParameterValue": "#{IngressFromPort}"
+    },
+    {
+        "ParameterKey": "IngressToPort",
+        "ParameterValue": "#{IngressToPort}"
+    },
+    {
+        "ParameterKey": "IngressCidrIp1",
+        "ParameterValue": "#{IngressCidrIp1}"
+    },
+    {
+        "ParameterKey": "IngressIpProtocol",
+        "ParameterValue": "#{IngressIpProtocol}"
+    },
+    {
+        "ParameterKey": "EgressFromPort",
+        "ParameterValue": "#{EgressFromPort}"
+    },
+    {
+        "ParameterKey": "EgressToPort",
+        "ParameterValue": "#{EgressToPort}"
+    },
+    {
+        "ParameterKey": "EgressCidrIp1",
+        "ParameterValue": "#{EgressCidrIp1}"
+    },
+    {
+        "ParameterKey": "EgressIpProtocol",
+        "ParameterValue": "#{EgressIpProtocol}"
+    }
+]

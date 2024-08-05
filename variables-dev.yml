@@ -1,0 +1,66 @@
+# DEV variables
+
+variables:
+  - template: variables-shared.yml
+
+  - name: VpcID
+    value: vpc-04fc0588a01d5be76
+
+  - name: Subnet1ID
+    value: subnet-06af04197445258d6
+
+  - name: ServerInstanceType
+    value: t2.micro
+
+  - name: ServerKeyName
+    value: windows
+
+  - name: ServerName
+    value: Webservertest
+
+  - name: Environment
+    value: dev
+
+  - name: IngressFromPort
+    value: 1433
+
+  - name: IngressToPort
+    value: 1433
+
+  - name: IngressCidrIp1
+    value: 172.31.97.128/25
+
+  - name: IngressIpProtocol
+    value: tcp
+
+  - name: EgressFromPort
+    value: 1433
+
+  - name: EgressToPort
+    value: 1433
+
+  - name: EgressCidrIp1
+    value: 172.31.64.0/20
+
+  - name: EgressIpProtocol
+    value: tcp
+
+  ####################################################################
+
+  - name: AWScredentials
+    value: aws_deploy_user
+
+  - name: AWSRegionName
+    value: us-east-1
+
+  - name: S3BucketName
+    value: devbucketlblogsdeploynew
+
+  - name: AWSStackName
+    value: pipelinestack
+
+  - name: TemplateName
+    value: AppID-Dev-Infra.yml
+
+  - name: InfraTemplatePath
+    value: Dev-Infra

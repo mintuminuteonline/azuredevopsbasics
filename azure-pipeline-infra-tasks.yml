@@ -1,0 +1,57 @@
+# Here Defining Parameters
+parameters:
+  credentials: ""
+  regionName: ""
+  bucketName: ""
+  stackName: ""
+  filesAcl: "bucket-owner-full-control"
+  templateName: ""
+  infratemplatepath: 
+  # changeSetName: ""
+  # targetFolder: ""
+
+steps:
+  # Replace Token to Toenize Parameter Values
+  - task: replacetokens@3
+    enabled: true
+    inputs:
+      rootDirectory: "$(Build.SourcesDirectory)/InfraTemplate/${{ parameters.infratemplatepath }}/"
+      targetFiles: "**/*.json"
+      encoding: "auto"
+      writeBOM: true
+      actionOnMissing: "fail"
+      keepToken: false
+      tokenPrefix: "#{"
+      tokenSuffix: "}#"
+      useLegacyPattern: false
+      enableTelemetry: true
+
+  # Upload CFT in AWS S3 Bucket
+  - task: S3Upload@1
+    enabled: true
+    inputs:
+      awsCredentials: ${{ parameters.credentials }}
+      regionName: ${{  parameters.regionName }}
+      bucketName: ${{ parameters.bucketName }}
+      sourceFolder: ${{ parameters.infratemplatepath}}
+      globExpressions: "*.yml"
+      # targetFolder: ${{ parameters.targetFolder }}
+      filesAcl: ${{ parameters.filesAcl }}
+      reateBucket: true
+
+  # Create and Update AWS Stack/ Deployment of CFT in AWS
+  - task: CloudformationCreateOrUpdateStack@1
+    enabled: true
+    displayName: "Create or Update AWS Stack"
+    inputs:
+      awsCredentials: ${{ parameters.credentials }}
+      regionName: ${{ parameters.regionName }}
+      stackName: ${{ parameters.stackName }}
+      templateSource: "s3"
+      s3BucketName: ${{ parameters.bucketName }}
+      s3ObjectKey: ${{ parameters.templateName }}
+      templateParametersFile: "${{ parameters.infratemplatepath }}/AppID-Infra.parameter.json"
+      # changeSetName: ${{ parameters.changeSetName }}
+      # captureStackOutputs: asVariables
+      # captureAsSecuredVars: false
+      # useChangeSet: true

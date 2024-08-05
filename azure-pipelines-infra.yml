@@ -1,0 +1,66 @@
+trigger:
+  branches:
+    include: [master]
+
+# resources:
+#   repositories:
+#     # Declare other repos so we can reference their YAML Templates #
+#     - repository: Repository-name
+#       type: git
+#       name: Path
+
+pool:
+  vmImage: ubuntu-latest
+
+# Build Stage #
+stages:
+  - stage: Build_Infra
+    # condition: and(ne(variables['Build.Reason'], 'PullRequest'), eq( variables['Build.SourceBranch'], 'refs/heads/main' ))
+    variables:
+      - template: ../variables-dev.yml
+    jobs:
+      - job: build_artifact_infra
+        workspace:
+          clean: all
+        steps:
+          - task: CopyFiles@2
+            displayName: "Copy Files to: $(build.artifactstagingdirectory)"
+            inputs:
+              SourceFolder: "InfraTemplate"
+              TargetFolder: "$(build.artifactstagingdirectory)"
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Artifact: drop"
+            inputs:
+              PathtoPublish: "$(build.artifactstagingdirectory)"
+              ArtifactName: "CFT"
+
+  # DEV Infra Deployment #
+  - stage: Dev_Infra_Deployment
+    dependsOn: Build_Infra
+    displayName: Dev Infra Deployment
+    # condition: and(succeeded('Build_Infra'), eq( variables['Build.SourceBranch'], 'refs/heads/main' ))
+    variables:
+      - template: ../variables-dev.yml
+    jobs:
+      - deployment: Dev_Infra_Release
+        timeoutInMinutes: 0
+        displayName: "Release Dev Infra"
+        # environment: dev
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                # - download: current
+                - template: azure-pipeline-infra-tasks.yml
+                  parameters:
+                    credentials: $ {{ variables.AWScredentials }}
+                    regionName: $ {{ variables.RegionName }}
+                    bucketName: $ {{ variables.BucketName }}
+                    stackName: $ {{ variables.StackName }}
+                    templateName: $ {{ variables.TemplateName }}
+                    infratemplatepath: $(Build.SourcesDirectory)/InfraTemplate/$ {{ variables.InfraTemplatePath }}
+                    # changeSetName: $ {{ variables.ChangeSetName }}
+                    # targetFolder: $ {{ variables.TargetFolder }}
