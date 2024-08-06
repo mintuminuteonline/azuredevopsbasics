@@ -17,7 +17,7 @@ stages:
   - stage: Build_Infra
     # condition: and(ne(variables['Build.Reason'], 'PullRequest'), eq( variables['Build.SourceBranch'], 'refs/heads/main' ))
     variables:
-      - template: ../variables-dev.yml
+      - template: ./variables-dev.yml
     jobs:
       - job: build_artifact_infra
         workspace:
