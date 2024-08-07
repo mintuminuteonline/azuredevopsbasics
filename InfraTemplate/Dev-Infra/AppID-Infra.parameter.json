@@ -1,58 +1,58 @@
 [
     {
         "ParameterKey": "VpcID",
-        "ParameterValue": "#{VpcID}"
+        "ParameterValue": "vpc-04fc0588a01d5be76"
     },
     {
         "ParameterKey": "Subnet1ID",
-        "ParameterValue": "#{Subnet1ID}"
+        "ParameterValue": "subnet-06af04197445258d6"
     },
     {
         "ParameterKey": "ServerInstanceType",
-        "ParameterValue": "#{ServerInstanceType}"
+        "ParameterValue": "t2.micro"
     },
     {
         "ParameterKey": "ServerKeyName",
-        "ParameterValue": "#{ServerKeyName}"
+        "ParameterValue": "windows"
     },
     {
         "ParameterKey": "ServerName",
-        "ParameterValue": "#{ServerName}"
+        "ParameterValue": "Webservertest"
     },
     {
         "ParameterKey": "Environment",
-        "ParameterValue": "#{Environment}"
+        "ParameterValue": "dev"
     },
     {
         "ParameterKey": "IngressFromPort",
-        "ParameterValue": "#{IngressFromPort}"
+        "ParameterValue": 1433
     },
     {
         "ParameterKey": "IngressToPort",
-        "ParameterValue": "#{IngressToPort}"
+        "ParameterValue": 1433
     },
     {
         "ParameterKey": "IngressCidrIp1",
-        "ParameterValue": "#{IngressCidrIp1}"
+        "ParameterValue": "172.31.97.128/25"
     },
     {
         "ParameterKey": "IngressIpProtocol",
-        "ParameterValue": "#{IngressIpProtocol}"
+        "ParameterValue": "tcp"
     },
     {
         "ParameterKey": "EgressFromPort",
-        "ParameterValue": "#{EgressFromPort}"
+        "ParameterValue": 1433
     },
     {
         "ParameterKey": "EgressToPort",
-        "ParameterValue": "#{EgressToPort}"
+        "ParameterValue": 1433
     },
     {
         "ParameterKey": "EgressCidrIp1",
-        "ParameterValue": "#{EgressCidrIp1}"
+        "ParameterValue": "172.31.64.0/20"
     },
     {
         "ParameterKey": "EgressIpProtocol",
-        "ParameterValue": "#{EgressIpProtocol}"
+        "ParameterValue": "tcp"
     }
 ]

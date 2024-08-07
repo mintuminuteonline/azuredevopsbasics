@@ -57,10 +57,10 @@ stages:
                 - template: azure-pipeline-infra-tasks.yml
                   parameters:
                     credentials: aws_deploy_user
-                    regionName: $ {{ variables.RegionName }}
-                    bucketName: $ {{ variables.BucketName }}
-                    stackName: $ {{ variables.StackName }}
-                    templateName: $ {{ variables.TemplateName }}
-                    infratemplatepath: $(Build.SourcesDirectory)/InfraTemplate/$ {{ variables.InfraTemplatePath }}
+                    regionName: us-east-1
+                    bucketName: devbucketlblogsdeploynew
+                    stackName: pipelinestack
+                    templateName: AppID-Dev-Infra.yml
+                    infratemplatepath: $(Build.SourcesDirectory)/InfraTemplate/Dev-Infra
                     # changeSetName: $ {{ variables.ChangeSetName }}
                     # targetFolder: $ {{ variables.TargetFolder }}
