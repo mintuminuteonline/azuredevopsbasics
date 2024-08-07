@@ -37,7 +37,7 @@ steps:
       globExpressions: "*.yml"
       # targetFolder: ${{ parameters.targetFolder }}
       filesAcl: ${{ parameters.filesAcl }}
-      reateBucket: true
+      createBucket: true
 
   # Create and Update AWS Stack/ Deployment of CFT in AWS
   - task: CloudformationCreateOrUpdateStack@1
