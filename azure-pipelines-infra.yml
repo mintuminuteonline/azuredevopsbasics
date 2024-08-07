@@ -61,6 +61,6 @@ stages:
                     bucketName: devbucketlblogsdeploynew
                     stackName: pipelinestack
                     templateName: AppID-Dev-Infra.yml
-                    infratemplatepath: $(Build.SourcesDirectory)/InfraTemplate/Dev-Infra
+                    infratemplatepath: $(Build.SourcesDirectory)/CFT/Dev-Infra
                     # changeSetName: $ {{ variables.ChangeSetName }}
                     # targetFolder: $ {{ variables.TargetFolder }}
