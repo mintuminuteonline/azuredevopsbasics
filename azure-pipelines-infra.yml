@@ -41,7 +41,7 @@ stages:
     displayName: Dev Infra Deployment
     # condition: and(succeeded('Build_Infra'), eq( variables['Build.SourceBranch'], 'refs/heads/main' ))
     variables:
-      - template: ../variables-dev.yml
+      - template: ./variables-dev.yml
     jobs:
       - deployment: Dev_Infra_Release
         timeoutInMinutes: 0
