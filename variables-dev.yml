@@ -1,7 +1,6 @@
 # DEV variables
 
 variables:
-  - template: variables-shared.yml
 
   - name: VpcID
     value: vpc-04fc0588a01d5be76
