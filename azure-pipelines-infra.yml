@@ -46,7 +46,7 @@ stages:
       - deployment: Dev_Infra_Release
         timeoutInMinutes: 0
         displayName: "Release Dev Infra"
-        # environment: dev
+        environment: dev
         pool:
           vmImage: ubuntu-latest
         strategy:
