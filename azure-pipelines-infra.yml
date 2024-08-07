@@ -56,7 +56,7 @@ stages:
                 # - download: current
                 - template: azure-pipeline-infra-tasks.yml
                   parameters:
-                    credentials: $ {{ variables.AWScredentials }}
+                    credentials: aws_deploy_user
                     regionName: $ {{ variables.RegionName }}
                     bucketName: $ {{ variables.BucketName }}
                     stackName: $ {{ variables.StackName }}
