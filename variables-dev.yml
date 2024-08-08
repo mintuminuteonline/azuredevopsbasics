@@ -5,6 +5,9 @@ variables:
   - name: VpcID
     value: vpc-04fc0588a01d5be76
 
+  - name: SecurityGroupNamePrimary
+    value: instancesecuritygroup
+
   - name: Subnet1ID
     value: subnet-06af04197445258d6
 

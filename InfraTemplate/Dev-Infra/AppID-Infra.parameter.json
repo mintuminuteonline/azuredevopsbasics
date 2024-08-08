@@ -4,6 +4,10 @@
         "ParameterValue": "vpc-04fc0588a01d5be76"
     },
     {
+        "ParameterKey": "SecurityGroupNamePrimary",
+        "ParameterValue": "instancesecuritygroup"
+    },
+    {
         "ParameterKey": "Subnet1ID",
         "ParameterValue": "subnet-06af04197445258d6"
     },

@@ -6,6 +6,10 @@ Parameters:
     Type: String
     Description: Please provide the VPC id
 
+  SecurityGroupNamePrimary:
+    Type: String
+    Description: Please provide the VPC id
+
   Subnet1ID:
     Type: String
     Description: Please provide the ID of the primary subnet
