@@ -30,13 +30,13 @@ steps:
   - task: S3Upload@1
     enabled: true
     inputs:
-      awsCredentials: ${{ parameters.credentials }}
-      regionName: ${{  parameters.regionName }}
-      bucketName: ${{ parameters.bucketName }}
-      sourceFolder: ${{ parameters.infratemplatepath}}
+      awsCredentials: "${{ parameters.credentials }}"
+      regionName: "${{ parameters.regionName }}"
+      bucketName: "${{ parameters.bucketName }}"
+      sourceFolder: "${{ parameters.infratemplatepath }}"
       globExpressions: "*.yml"
       # targetFolder: ${{ parameters.targetFolder }}
-      filesAcl: ${{ parameters.filesAcl }}
+      filesAcl: "${{ parameters.filesAcl }}"
       createBucket: true
 
   # Create and Update AWS Stack/ Deployment of CFT in AWS
@@ -44,12 +44,12 @@ steps:
     enabled: true
     displayName: "Create or Update AWS Stack"
     inputs:
-      awsCredentials: ${{ parameters.credentials }}
-      regionName: ${{ parameters.regionName }}
-      stackName: ${{ parameters.stackName }}
+      awsCredentials: "${{ parameters.credentials }}"
+      regionName: "${{ parameters.regionName }}"
+      stackName: "${{ parameters.stackName }}"
       templateSource: "s3"
-      s3BucketName: ${{ parameters.bucketName }}
-      s3ObjectKey: ${{ parameters.templateName }}
+      s3BucketName: "${{ parameters.bucketName }}"
+      s3ObjectKey: "${{ parameters.templateName }}"
       templateParametersFile: "${{ parameters.infratemplatepath }}/AppID-Infra.parameter.json"
       # changeSetName: ${{ parameters.changeSetName }}
       # captureStackOutputs: asVariables
