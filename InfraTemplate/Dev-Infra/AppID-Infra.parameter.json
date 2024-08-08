@@ -25,11 +25,11 @@
     },
     {
         "ParameterKey": "IngressFromPort",
-        "ParameterValue": 1433
+        "ParameterValue": "1433"
     },
     {
         "ParameterKey": "IngressToPort",
-        "ParameterValue": 1433
+        "ParameterValue": "1433"
     },
     {
         "ParameterKey": "IngressCidrIp1",
@@ -41,11 +41,11 @@
     },
     {
         "ParameterKey": "EgressFromPort",
-        "ParameterValue": 1433
+        "ParameterValue": "1433"
     },
     {
         "ParameterKey": "EgressToPort",
-        "ParameterValue": 1433
+        "ParameterValue": "1433"
     },
     {
         "ParameterKey": "EgressCidrIp1",
