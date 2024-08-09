@@ -25,7 +25,7 @@
     },
     {
         "ParameterKey": "ServerName",
-        "ParameterValue": "Webservertest"
+        "ParameterValue": "ec2instance"
     },
     {
         "ParameterKey": "Environment",

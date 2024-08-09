@@ -21,7 +21,7 @@ variables:
     value: windows
 
   - name: ServerName
-    value: Webservertest
+    value: ec2instance
 
   - name: Environment
     value: dev
