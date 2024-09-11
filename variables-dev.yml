@@ -3,19 +3,19 @@
 variables:
 
   - name: VpcID
-    value: vpc-04fc0588a01d5be76
+    value: vpc-058cdde1c7b9009e6
 
   - name: SecurityGroupNamePrimary
     value: instancesecuritygroup
 
   - name: Subnet1ID
-    value: subnet-06af04197445258d6
+    value: subnet-0fa01a6b02fa6750e
 
   - name: ServerInstanceType
     value: t2.micro
 
   - name: ServerImageId
-    value: ami-07d9456e59793a7d5
+    value: ami-0182f373e66f89c85
 
   - name: ServerKeyName
     value: windows
@@ -33,7 +33,7 @@ variables:
     value: 1433
 
   - name: IngressCidrIp1
-    value: 172.31.97.128/25
+    value: 172.31.32.12/20
 
   - name: IngressIpProtocol
     value: tcp
@@ -45,7 +45,7 @@ variables:
     value: 1433
 
   - name: EgressCidrIp1
-    value: 172.31.64.0/20
+    value: 172.31.32.12/20
 
   - name: EgressIpProtocol
     value: tcp
