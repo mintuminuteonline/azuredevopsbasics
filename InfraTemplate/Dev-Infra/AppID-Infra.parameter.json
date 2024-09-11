@@ -9,7 +9,7 @@
     },
     {
         "ParameterKey": "Subnet1ID",
-        "ParameterValue": "subnet-06af04197445258d6"
+        "ParameterValue": "subnet-0fa01a6b02fa6750e"
     },
     {
         "ParameterKey": "ServerInstanceType",
@@ -17,7 +17,7 @@
     },
     {
         "ParameterKey": "ServerImageId",
-        "ParameterValue": "ami-07d9456e59793a7d5"
+        "ParameterValue": "ami-0182f373e66f89c85"
     },
     {
         "ParameterKey": "ServerKeyName",
@@ -41,7 +41,7 @@
     },
     {
         "ParameterKey": "IngressCidrIp1",
-        "ParameterValue": "172.31.97.128/25"
+        "ParameterValue": "172.31.32.12/20"
     },
     {
         "ParameterKey": "IngressIpProtocol",
@@ -57,7 +57,7 @@
     },
     {
         "ParameterKey": "EgressCidrIp1",
-        "ParameterValue": "172.31.64.0/20"
+        "ParameterValue": "172.31.32.14/20"
     },
     {
         "ParameterKey": "EgressIpProtocol",
