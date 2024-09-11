@@ -1,0 +1,66 @@
+[
+    {
+        "ParameterKey": "VpcID",
+        "ParameterValue": "vpc-058cdde1c7b9009e6"
+    },
+    {
+        "ParameterKey": "SecurityGroupNamePrimary",
+        "ParameterValue": "instancesecuritygroup"
+    },
+    {
+        "ParameterKey": "Subnet1ID",
+        "ParameterValue": "subnet-0fa01a6b02fa6750e"
+    },
+    {
+        "ParameterKey": "ServerInstanceType",
+        "ParameterValue": "t2.micro"
+    },
+    {
+        "ParameterKey": "ServerImageId",
+        "ParameterValue": "ami-0182f373e66f89c85"
+    },
+    {
+        "ParameterKey": "ServerKeyName",
+        "ParameterValue": "windows"
+    },
+    {
+        "ParameterKey": "ServerName",
+        "ParameterValue": "ec2instance"
+    },
+    {
+        "ParameterKey": "Environment",
+        "ParameterValue": "intg"
+    },
+    {
+        "ParameterKey": "IngressFromPort",
+        "ParameterValue": "1433"
+    },
+    {
+        "ParameterKey": "IngressToPort",
+        "ParameterValue": "1433"
+    },
+    {
+        "ParameterKey": "IngressCidrIp1",
+        "ParameterValue": "172.31.32.12/20"
+    },
+    {
+        "ParameterKey": "IngressIpProtocol",
+        "ParameterValue": "tcp"
+    },
+    {
+        "ParameterKey": "EgressFromPort",
+        "ParameterValue": "1433"
+    },
+    {
+        "ParameterKey": "EgressToPort",
+        "ParameterValue": "1433"
+    },
+    {
+        "ParameterKey": "EgressCidrIp1",
+        "ParameterValue": "172.31.32.14/20"
+    },
+    {
+        "ParameterKey": "EgressIpProtocol",
+        "ParameterValue": "tcp"
+    }
+]
