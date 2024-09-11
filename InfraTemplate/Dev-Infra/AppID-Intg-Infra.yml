@@ -1,0 +1,124 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CloudFormation Template For AWS Resource Creation
+
+Parameters:
+  VpcID:
+    Type: String
+    Description: Please provide the VPC id
+
+  SecurityGroupNamePrimary:
+    Type: String
+    Description: Please provide the VPC id
+
+  Subnet1ID:
+    Type: String
+    Description: Please provide the ID of the primary subnet
+
+  ServerInstanceType:
+    Type: String
+    Description: Please provide the webserver instance type
+
+  ServerImageId:
+    Type: String
+    Description: Please provide the webserver instance type
+
+  ServerKeyName:
+    Type: String
+    Description: Please provide the key for the webserver
+
+  ServerName:
+    Type: String
+    Description: Please provide the server name
+
+  Environment:
+    Type: String
+    Description: Please provide the environment
+
+  IngressFromPort:
+    Type: String
+    Description: Please provide the from port
+
+  IngressToPort:
+    Type: String
+    Description: Please provide the to port
+
+  IngressCidrIp1:
+    Type: String
+    Description: Please provide the cidr ip range 1
+
+  IngressIpProtocol:
+    Type: String
+    Description: Please provide the cidr ip range
+    AllowedValues:
+      - tcp
+      - udp
+      - icmp
+      - icmpv6
+
+  EgressFromPort:
+    Type: String
+    Description: Please provide the from port
+
+  EgressToPort:
+    Type: String
+    Description: Please provide the to port
+
+  EgressCidrIp1:
+    Type: String
+    Description: Please provide the cidr ip range
+
+  EgressIpProtocol:
+    Type: String
+    Description: Please provide the cidr ip range
+    AllowedValues:
+      - tcp
+      - udp
+      - icmp
+      - icmpv6
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ServerImageId
+      SubnetId: !Ref Subnet1ID
+      SecurityGroupIds:
+        - !GetAtt SecurityGroup.GroupId
+      InstanceType: !Ref ServerInstanceType
+      # IamInstanceProfile: !Ref InstanceProfiletRoleName
+      KeyName: !Ref ServerKeyName
+      Tags:
+        - Key: Name
+          Value: !Ref ServerName
+        - Key: Environment
+          Value: !Ref Environment
+
+  # Creating  security group1
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: server security group primary
+      GroupName: !Ref SecurityGroupNamePrimary
+      VpcId: !Ref VpcID
+
+  # Creating  server Egress rule
+  ServerEgress:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      IpProtocol: !Ref EgressIpProtocol
+      FromPort: !Ref EgressFromPort
+      ToPort: !Ref EgressToPort
+      CidrIp: !Ref EgressCidrIp1
+      GroupId: !Ref SecurityGroup
+      Description: Security Group Egress Rule
+
+  # Creating  server Ingress rule
+  ServerIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: !Ref IngressIpProtocol
+      FromPort: !Ref IngressFromPort
+      ToPort: !Ref IngressToPort
+      CidrIp: !Ref IngressCidrIp1
+      GroupId: !Ref SecurityGroup
+      Description: Server Ingress Rule

@@ -65,32 +65,32 @@ stages:
                     # changeSetName: $ {{ variables.ChangeSetName }}
                     # targetFolder: $ {{ variables.TargetFolder }}
 
-  # # INTG Infra Deployment #
-  # - stage: INTG_Infra_Deployment
-  #   dependsOn: Dev_Infra_Deployment
-  #   displayName: INTG Infra Deployment
-  #   # condition: and(succeeded('Build_Infra'), eq( variables['Build.SourceBranch'], 'refs/heads/main' ))
-  #   variables:
-  #     - template: ./variables-dev.yml
-  #   jobs:
-  #     - deployment: Dev_Infra_Release
-  #       timeoutInMinutes: 0
-  #       displayName: "Release Dev Infra"
-  #       environment: dev
-  #       pool:
-  #         vmImage: ubuntu-latest
-  #       strategy:
-  #         runOnce:
-  #           deploy:
-  #             steps:
-  #               # - download: current
-  #               - template: azure-pipeline-infra-tasks.yml
-  #                 parameters:
-  #                   credentials: aws_deploy_user
-  #                   regionName: us-east-1
-  #                   bucketName: devbucketlblogsdeploynew
-  #                   stackName: pipelinestack
-  #                   templateName: AppID-Dev-Infra.yml
-  #                   infratemplatepath: $(Pipeline.Workspace)/CFT/Dev-Infra
-  #                   # changeSetName: $ {{ variables.ChangeSetName }}
-  #                   # targetFolder: $ {{ variables.TargetFolder }}
+  # INTG Infra Deployment #
+  - stage: INTG_Infra_Deployment
+    dependsOn: Dev_Infra_Deployment
+    displayName: INTG Infra Deployment
+    # condition: and(succeeded('Build_Infra'), eq( variables['Build.SourceBranch'], 'refs/heads/main' ))
+    variables:
+      - template: ./variables-intg.yml
+    jobs:
+      - deployment: Dev_Infra_Release
+        timeoutInMinutes: 0
+        displayName: "Release Intg Infra"
+        environment: intg
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                # - download: current
+                - template: azure-pipeline-infra-tasks.yml
+                  parameters:
+                    credentials: aws_deploy_user
+                    regionName: us-east-1
+                    bucketName: devbucketlblogsdeploynew
+                    stackName: pipelinestack
+                    templateName: AppID-Intg-Infra.yml
+                    infratemplatepath: $(Pipeline.Workspace)/CFT/Intg-Infra
+                    # changeSetName: $ {{ variables.ChangeSetName }}
+                    # targetFolder: $ {{ variables.TargetFolder }}
