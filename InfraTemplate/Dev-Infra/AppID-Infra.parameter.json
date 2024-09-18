@@ -1,7 +1,7 @@
 [
     {
         "ParameterKey": "VpcID",
-        "ParameterValue": "vpc-058cdde1c7b9009e6"
+        "ParameterValue": "vpc-002e7fff5a1f86684"
     },
     {
         "ParameterKey": "SecurityGroupNamePrimary",
@@ -9,7 +9,7 @@
     },
     {
         "ParameterKey": "Subnet1ID",
-        "ParameterValue": "subnet-0fa01a6b02fa6750e"
+        "ParameterValue": "subnet-00abda75e2db93007"
     },
     {
         "ParameterKey": "ServerInstanceType",
@@ -17,7 +17,7 @@
     },
     {
         "ParameterKey": "ServerImageId",
-        "ParameterValue": "ami-0182f373e66f89c85"
+        "ParameterValue": "ami-0ebfd941bbafe70c6"
     },
     {
         "ParameterKey": "ServerKeyName",
@@ -41,7 +41,7 @@
     },
     {
         "ParameterKey": "IngressCidrIp1",
-        "ParameterValue": "172.31.32.12/20"
+        "ParameterValue": "10.0.2.1/24"
     },
     {
         "ParameterKey": "IngressIpProtocol",
@@ -57,7 +57,7 @@
     },
     {
         "ParameterKey": "EgressCidrIp1",
-        "ParameterValue": "172.31.32.14/20"
+        "ParameterValue": "10.0.2.11/24"
     },
     {
         "ParameterKey": "EgressIpProtocol",
