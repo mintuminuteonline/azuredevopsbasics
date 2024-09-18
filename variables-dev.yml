@@ -59,7 +59,7 @@ variables:
     value: us-east-1
 
   - name: S3BucketName
-    value: newdevbucketlblogsdeploy
+    value: newdevbucketlblogsdeploy1
 
   - name: AWSStackName
     value: pipelinestack
