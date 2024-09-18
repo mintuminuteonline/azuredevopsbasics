@@ -58,7 +58,7 @@ stages:
                   parameters:
                     credentials: aws_deploy_user
                     regionName: us-east-1
-                    bucketName: newdevbucketlblogsdeploy
+                    bucketName: newdevbucketlblogsdeploy1
                     stackName: pipelinestack
                     templateName: AppID-Dev-Infra.yml
                     infratemplatepath: $(Pipeline.Workspace)/CFT/Dev-Infra
@@ -88,7 +88,7 @@ stages:
                   parameters:
                     credentials: aws_deploy_user
                     regionName: us-east-1
-                    bucketName: devbucketlblogsdeploynew
+                    bucketName: devbucketlblogsdeploynew1
                     stackName: pipelinestack
                     templateName: AppID-Intg-Infra.yml
                     infratemplatepath: $(Pipeline.Workspace)/CFT/Intg-Infra
