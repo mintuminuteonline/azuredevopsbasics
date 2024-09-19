@@ -87,7 +87,7 @@ stages:
                 - template: azure-pipeline-infra-tasks.yml
                   parameters:
                     credentials: aws_deploy_user
-                    regionName: us-east-1
+                    regionName: us-east-2
                     bucketName: devbucketlblogsdeploynew1
                     stackName: intg-pipelinestack
                     templateName: AppID-Intg-Infra.yml
