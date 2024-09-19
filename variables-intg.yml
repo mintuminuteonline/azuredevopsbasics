@@ -56,7 +56,7 @@ variables:
     value: aws_deploy_user
 
   - name: AWSRegionName
-    value: us-east-2
+    value: us-east-1
 
   - name: S3BucketName
     value: newdevbucketlblogsdeploy
