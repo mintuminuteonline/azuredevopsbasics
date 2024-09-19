@@ -5,7 +5,7 @@
     },
     {
         "ParameterKey": "SecurityGroupNamePrimary",
-        "ParameterValue": "instancesecuritygroup"
+        "ParameterValue": "intginstancesecuritygroup"
     },
     {
         "ParameterKey": "Subnet1ID",
