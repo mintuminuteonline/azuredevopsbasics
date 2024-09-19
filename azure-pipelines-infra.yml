@@ -73,7 +73,7 @@ stages:
     variables:
       - template: ./variables-intg.yml
     jobs:
-      - deployment: Dev_Infra_Release
+      - deployment: Intg_Infra_Release
         timeoutInMinutes: 0
         displayName: "Release Intg Infra"
         environment: intg

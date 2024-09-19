@@ -24,7 +24,7 @@ variables:
     value: intgec2instance
 
   - name: Environment
-    value: dev
+    value: intg
 
   - name: IngressFromPort
     value: 1433
@@ -65,7 +65,7 @@ variables:
     value: pipelinestack
 
   - name: TemplateName
-    value: AppID-Dev-Infra.yml
+    value: AppID-Intg-Infra.yml
 
   - name: InfraTemplatePath
-    value: Dev-Infra
+    value: Intg-Infra

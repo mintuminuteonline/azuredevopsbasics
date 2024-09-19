@@ -25,11 +25,11 @@
     },
     {
         "ParameterKey": "ServerName",
-        "ParameterValue": "ec2instance"
+        "ParameterValue": "intgec2instance"
     },
     {
         "ParameterKey": "Environment",
-        "ParameterValue": "dev"
+        "ParameterValue": "intg"
     },
     {
         "ParameterKey": "IngressFromPort",
