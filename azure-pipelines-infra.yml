@@ -59,7 +59,7 @@ stages:
                     credentials: aws_deploy_user
                     regionName: us-east-1
                     bucketName: newdevbucketlblogsdeploy1
-                    stackName: pipelinestack
+                    stackName: dev-pipelinestack
                     templateName: AppID-Dev-Infra.yml
                     infratemplatepath: $(Pipeline.Workspace)/CFT/Dev-Infra
                     # changeSetName: $ {{ variables.ChangeSetName }}
