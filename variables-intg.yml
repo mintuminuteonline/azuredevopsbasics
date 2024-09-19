@@ -62,7 +62,7 @@ variables:
     value: newdevbucketlblogsdeploy
 
   - name: AWSStackName
-    value: pipelinestack
+    value: intg-pipelinestack
 
   - name: TemplateName
     value: AppID-Intg-Infra.yml
